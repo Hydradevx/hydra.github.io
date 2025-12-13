@@ -1,244 +1,134 @@
-import { useState, useEffect, useRef } from 'react';
-import { motion, useInView, AnimatePresence } from 'framer-motion';
+import { useEffect, useState } from "react"
+import { motion } from "framer-motion"
+
+const COMMANDS = [
+  "whoami",
+  "uname -a",
+  "cat arch.txt",
+  "cat about.txt"
+]
+
+const OUTPUTS = [
+  "hydradev",
+  "Linux arch 6.8.9-arch1-1 x86_64 GNU/Linux",
+  `
+                   /\\
+                  /  \\
+                 /\\   \\
+                /      \\
+               /   ,,   \\
+              /   |  |   \\
+             /_-''    ''-_\\
+
+OS: Arch Linux
+Shell: zsh
+WM: Hyprland
+`,
+  "Developer. Linux user. Systems & UI engineer."
+]
 
 export default function Hero() {
-  const [displayText, setDisplayText] = useState('');
-  const [currentTextIndex, setCurrentTextIndex] = useState(0);
-  const texts = ["影の開発者", "Hydra_DevX"];
-  const typingSpeed = 100;
-  const switchDelay = 3000;
-  const scrollRef = useRef(null);
-  const isScrolling = useInView(scrollRef, { margin: "-50%" });
+  const [line, setLine] = useState(0)
+  const [typed, setTyped] = useState("")
+  const [done, setDone] = useState(false)
 
   useEffect(() => {
-    let i = 0;
-    let currentText = texts[currentTextIndex];
-    
-    const typingInterval = setInterval(() => {
-      if (i < currentText.length) {
-        setDisplayText(currentText.slice(0, i + 1));
-        i++;
-      } else {
-        clearInterval(typingInterval);
-        setTimeout(() => {
-          setCurrentTextIndex((prev) => (prev + 1) % texts.length);
-        }, switchDelay);
+    if (line >= COMMANDS.length) return
+
+    let i = 0
+    const interval = setInterval(() => {
+      setTyped(COMMANDS[line].slice(0, i + 1))
+      i++
+      if (i === COMMANDS[line].length) {
+        clearInterval(interval)
+        setTimeout(() => setDone(true), 350)
       }
-    }, typingSpeed);
+    }, 55)
 
-    return () => clearInterval(typingInterval);
-  }, [currentTextIndex]);
+    return () => clearInterval(interval)
+  }, [line])
 
   useEffect(() => {
-    setDisplayText('');
-  }, [currentTextIndex]);
+    if (!done) return
+    const t = setTimeout(() => {
+      setTyped("")
+      setDone(false)
+      setLine((l) => l + 1)
+    }, 750)
+    return () => clearTimeout(t)
+  }, [done])
 
   return (
-    <section className="relative w-full h-screen flex items-center justify-between px-12 bg-[#0a0a0a] text-white overflow-hidden">
-      {/* Left Side - Main Content */}
-      <motion.div 
-        initial={{ opacity: 0, x: -50 }} 
-        animate={{ opacity: 1, x: 0 }} 
-        transition={{ duration: 0.8, ease: "easeOut" }}
-        className="relative z-10 flex flex-col items-start text-left w-1/2"
-      >
-        {/* Japanese Seal */}
-        <motion.div
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          transition={{ duration: 1, ease: "easeOut" }}
-          className="w-20 h-20 border-2 border-red-600 rounded-full mb-6 flex items-center justify-center relative"
+    <section className="relative h-screen bg-[#0b0e14] text-[#c0caf5] px-10 flex items-center">
+      <div className="max-w-4xl w-full">
+
+        {/* Header */}
+        <motion.h1
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="text-5xl font-bold tracking-tight text-white mb-2"
         >
-          <div className="absolute inset-0 border-2 border-red-900 rounded-full animate-ping opacity-20"></div>
-          <span className="text-red-600 text-lg font-japanese">忍</span>
-        </motion.div>
+          HydraDevX
+        </motion.h1>
 
-        {/* Codename */}
-        <div className="mb-2">
-          <span className="text-sm text-gray-500 font-nerd tracking-widest border-b border-red-500/30 pb-1">
-            CODENAME_ACTIVE
-          </span>
-        </div>
-        
-        {/* Main Title - Switching Text */}
-        <div className="h-24 mb-4 flex items-center">
-          <AnimatePresence mode="wait">
-            <motion.h1
-              key={currentTextIndex}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.5 }}
-              className={`text-6xl font-black bg-gradient-to-r from-[#ff003c] to-[#8b0000] bg-clip-text text-transparent drop-shadow-[0_0_30px_#ff003c55] ${
-                currentTextIndex === 0 ? 'font-japanese' : 'font-nerd'
-              }`}
-            >
-              {displayText}
-              <motion.span
-                animate={{ opacity: [1, 0] }}
-                transition={{ duration: 0.8, repeat: Infinity }}
-                className="ml-1 text-red-500"
-              >
-                |
-              </motion.span>
-            </motion.h1>
-          </AnimatePresence>
-        </div>
+        <p className="text-sm text-[#7aa2f7] mb-8 font-mono">
+          Arch Linux • TypeScript • Systems • UI
+        </p>
 
-        {/* Subtitle */}
-        <AnimatePresence mode="wait">
-          <motion.p 
-            key={currentTextIndex}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.5 }}
-            className="text-xl text-gray-400 font-japanese mb-6 tracking-wider"
-          >
-            {currentTextIndex === 0 ? "暗黒の開発者" : "Shadow Developer"}
-          </motion.p>
-        </AnimatePresence>
-        
-        {/* Mission Briefing */}
+        {/* Terminal */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 2 }}
-          className="text-lg text-gray-300 font-nerd border border-red-500/30 bg-black/40 backdrop-blur-sm p-6 rounded-lg w-full max-w-2xl"
+          transition={{ delay: 0.4 }}
+          className="bg-[#0f1419] border border-[#1f2335] rounded-lg font-mono text-sm overflow-hidden shadow-xl"
         >
-          <div className="flex items-center gap-2 mb-4">
-            <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
-            <span className="text-red-500 text-sm">MISSION_BRIEFING</span>
+          {/* Titlebar */}
+          <div className="flex items-center gap-2 px-4 py-2 bg-[#111827] border-b border-[#1f2335]">
+            <span className="w-3 h-3 bg-red-500 rounded-full" />
+            <span className="w-3 h-3 bg-yellow-500 rounded-full" />
+            <span className="w-3 h-3 bg-green-500 rounded-full" />
+            <span className="ml-4 text-xs text-gray-400">
+              hydra@arch: ~
+            </span>
           </div>
-          <p className="leading-relaxed">
-            SPECIALIZING IN <span className="text-red-400">STEALTH DEVELOPMENT</span><br/>
-            AND <span className="text-red-400">LETHAL USER EXPERIENCES</span>.<br/>
-            OPERATING IN THE SHADOWS OF MODERN TECHNOLOGY.
-          </p>
-        </motion.div>
-      </motion.div>
 
-      {/* Right Side - Discord & Visual Elements */}
-      <motion.div 
-        initial={{ opacity: 0, x: 50 }} 
-        animate={{ opacity: 1, x: 0 }} 
-        transition={{ duration: 0.8, ease: "easeOut" }}
-        className="relative z-10 flex flex-col items-end w-2/5"
-      >
-        {/* Discord Status */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 2.5 }}
-          className="relative mb-8"
-        >
-          <div className="absolute -inset-1 bg-red-500/20 rounded-lg blur-sm"></div>
-          <img
-            src="https://lanyard.cnrad.dev/api/1251647487081709682"
-            alt="Mission Status"
-            className="relative rounded-lg border border-red-500/30 bg-black/30 backdrop-blur-sm w-full"
-          />
-          <div className="absolute bottom-3 left-3 text-xs text-red-400 font-nerd bg-black/70 px-2 py-1 rounded border border-red-900/50">
-            ACTIVE_MISSION
-          </div>
-        </motion.div>
-
-        {/* Stats Panel */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 3 }}
-          className="border border-red-500/20 bg-black/30 backdrop-blur-sm rounded-lg p-6 w-full"
-        >
-          <div className="space-y-4">
-            <div className="flex justify-between items-center border-b border-red-500/10 pb-2">
-              <span className="text-gray-400 font-nerd text-sm">STATUS</span>
-              <span className="text-red-500 font-nerd text-sm flex items-center gap-2">
-                <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
-                OPERATIONAL
-              </span>
-            </div>
-            <div className="flex justify-between items-center border-b border-red-500/10 pb-2">
-              <span className="text-gray-400 font-nerd text-sm">SPECIALTY</span>
-              <span className="text-red-400 font-nerd text-sm">STEALTH_DEV</span>
-            </div>
-            <div className="flex justify-between items-center">
-              <span className="text-gray-400 font-nerd text-sm">LOCATION</span>
-              <span className="text-red-400 font-nerd text-sm">SHADOW_NET</span>
-            </div>
-          </div>
-        </motion.div>
-
-        {/* Vertical Kanji */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 3.5 }}
-          className="mt-8 text-right"
-        >
-          <div className="text-red-500/40 font-japanese text-lg writing-mode-vertical-rl tracking-widest h-32 flex items-center justify-center">
-            影<br/>忍<br/>開<br/>発<br/>闇
-          </div>
-        </motion.div>
-      </motion.div>
-      
-      {/* Background Elements */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-red-900 rounded-full blur-[100px] opacity-10"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-red-800 rounded-full blur-[80px] opacity-10"></div>
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,0,60,0.03)_1px,transparent_1px)] bg-[size:100%_3px]"></div>
-        
-        {/* Corner Accents */}
-        <div className="absolute top-10 left-10 w-16 h-16 border-t-2 border-l-2 border-red-500/20"></div>
-        <div className="absolute top-10 right-10 w-16 h-16 border-t-2 border-r-2 border-red-500/20"></div>
-        <div className="absolute bottom-10 left-10 w-16 h-16 border-b-2 border-l-2 border-red-500/20"></div>
-        <div className="absolute bottom-10 right-10 w-16 h-16 border-b-2 border-r-2 border-red-500/20"></div>
-      </div>
-
-      {/* Text Cycle Indicator */}
-      <div className="absolute bottom-20 left-12">
-        <div className="flex items-center gap-2 text-xs text-gray-500 font-nerd">
-          <div className="flex gap-1">
-            {texts.map((_, index) => (
-              <div
-                key={index}
-                className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                  index === currentTextIndex ? 'bg-red-500' : 'bg-gray-600'
-                }`}
-              />
+          {/* Terminal Body */}
+          <div className="p-4 space-y-3 whitespace-pre-wrap">
+            {COMMANDS.slice(0, line).map((cmd, i) => (
+              <div key={i}>
+                <div className="text-[#7aa2f7]">
+                  <span className="text-[#9ece6a]">hydra@arch</span>
+                  <span className="text-gray-500">:</span>
+                  <span className="text-[#7aa2f7]">~</span>$ {cmd}
+                </div>
+                <div className="text-gray-300 pl-4">
+                  {OUTPUTS[i]}
+                </div>
+              </div>
             ))}
-          </div>
-          <span>TEXT_CYCLE_ACTIVE</span>
-        </div>
-      </div>
 
-      {/* Scroll Indicator */}
-      {!isScrolling && (
-        <motion.div 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5 }}
-          className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
-        >
-          <div className="text-center">
-            <motion.div
-              animate={{ y: [0, 8, 0] }}
-              transition={{ repeat: Infinity, duration: 2 }}
-              className="text-red-500/70 text-sm font-nerd mb-3 tracking-widest"
-            >
-              スクロール
-            </motion.div>
-            <motion.div
-              animate={{ 
-                opacity: [1, 0.3, 1]
-              }}
-              transition={{ repeat: Infinity, duration: 1.5 }}
-              className="w-px h-12 bg-gradient-to-t from-red-500 to-transparent mx-auto"
-            />
+            {line < COMMANDS.length && (
+              <div className="text-[#7aa2f7]">
+                <span className="text-[#9ece6a]">hydra@arch</span>
+                <span className="text-gray-500">:</span>
+                <span className="text-[#7aa2f7]">~</span>$ {typed}
+                <span className="animate-pulse">▋</span>
+              </div>
+            )}
           </div>
         </motion.div>
-      )}
-      <div ref={scrollRef} className="absolute bottom-0 w-full h-10" />
+
+      </div>
+
+      {/* Scroll Hint */}
+      <motion.div
+        animate={{ y: [0, 6, 0] }}
+        transition={{ repeat: Infinity, duration: 2 }}
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 text-xs text-gray-500 font-mono"
+      >
+        scroll ↓
+      </motion.div>
     </section>
-  );
+  )
 }

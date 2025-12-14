@@ -1,214 +1,109 @@
-import { useRef } from "react";
-import { motion, useInView } from "framer-motion";
+import { useRef } from "react"
+import { motion, useInView } from "framer-motion"
 
 export default function AboutMe() {
-  const aboutMeRef = useRef(null);
-  const isInView = useInView(aboutMeRef, { margin: "-50%" });
+  const ref = useRef(null)
+  const isInView = useInView(ref, { margin: "-40%" })
 
   return (
     <section
-      ref={aboutMeRef}
-      className="w-full h-screen flex flex-col justify-center items-center text-center text-white relative pt-20 bg-[#0a0a0a] overflow-hidden"
+      ref={ref}
+      className="w-full min-h-screen bg-[#0b0e14] text-[#c0caf5] px-10 py-24 relative"
     >
-      {/* Main Content */}
-      <div className="relative z-10 max-w-6xl mx-auto px-8">
-        {/* Section Title */}
+      <div className="max-w-6xl mx-auto space-y-12">
+
+        {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: -50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-          className="mb-12"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: isInView ? 1 : 0, y: isInView ? 0 : 10 }}
+          transition={{ duration: 0.5 }}
         >
-          <h2 className="text-5xl font-black font-nerd bg-gradient-to-r from-[#ff003c] to-[#8b0000] bg-clip-text text-transparent drop-shadow-[0_0_20px_#ff003c55] mb-4">
-            OPERATIVE_DOSSIER
+          <h2 className="font-mono text-sm text-[#7aa2f7] mb-2">
+            man hydradev
           </h2>
-          <div className="w-32 h-1 bg-gradient-to-r from-[#ff003c] to-[#8b0000] mx-auto"></div>
+          <h3 className="text-4xl font-bold text-white">
+            About
+          </h3>
         </motion.div>
 
-        {/* Mission Briefing Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-          {/* Left Column - Mission Statement */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+
+          {/* About */}
           <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1, delay: 0.2 }}
-            className="text-left"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: isInView ? 1 : 0, x: isInView ? 0 : -20 }}
+            transition={{ duration: 0.6 }}
+            className="bg-[#0f1419] border border-[#1f2335] rounded-lg font-mono text-sm"
           >
-            <div className="border border-red-500/30 bg-black/40 backdrop-blur-sm rounded-lg p-6 h-full">
-              <div className="flex items-center gap-2 mb-4">
-                <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
-                <span className="text-red-500 font-nerd text-sm">ACTIVE_MISSION_BRIEF</span>
-              </div>
-              
-              <div className="space-y-4 text-gray-300 font-nerd">
-                <p>
-                  <span className="text-red-400">&gt;_ </span>
-                  OPERATIVE_STATUS: <span className="text-red-400">ACTIVE</span>
-                </p>
-                <p>
-                  <span className="text-red-400">&gt;_ </span>
-                  CURRENT_DEPLOYMENT: <span className="text-red-400">HYDRION</span>
-                </p>
-                <p>
-                  <span className="text-red-400">&gt;_ </span>
-                  SPECIALIZATION: <span className="text-red-400">STEALTH_DEVELOPMENT</span>
-                </p>
-                <div className="border-t border-red-500/20 pt-4 mt-4">
-                  <p className="text-red-400 mb-2">PRIMARY_SKILLSET:</p>
-                  <ul className="text-sm space-y-1">
-                    <li>• AUTOMATION_ENGINEERING</li>
-                    <li>• API_ARCHITECTURE</li>
-                    <li>• FULL_STACK_OPERATIONS</li>
-                    <li>• DISCORD_BOT_INFILTRATION</li>
-                    <li>• AI_INTEGRATION</li>
-                  </ul>
-                </div>
-              </div>
+            <div className="px-4 py-2 border-b border-[#1f2335] text-gray-400">
+              $ cat about.md
+            </div>
+            <div className="p-4 space-y-4 text-gray-300 leading-relaxed">
+              <p>
+                Hi, I’m <span className="text-white">HydraDevX</span>.
+              </p>
+              <p>
+                I build developer tools, automation systems, and UI-heavy
+                applications with a focus on performance and control.
+              </p>
+              <p>
+                My daily environment is <span className="text-white">Arch Linux</span>.
+                I prefer minimal systems, clean abstractions, and tooling that
+                stays out of the way.
+              </p>
             </div>
           </motion.div>
 
-          {/* Right Column - GitHub Intel */}
+          {/* Stack & Stats */}
           <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1, delay: 0.4 }}
-            className="space-y-6"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: isInView ? 1 : 0, x: isInView ? 0 : 20 }}
+            transition={{ duration: 0.6 }}
+            className="space-y-6 font-mono text-sm"
           >
+            {/* Tech Stack */}
+            <div className="bg-[#0f1419] border border-[#1f2335] rounded-lg">
+              <div className="px-4 py-2 border-b border-[#1f2335] text-gray-400">
+                tech stack
+              </div>
+              <div className="p-4 flex flex-wrap gap-2">
+                <img src="https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white" />
+                <img src="https://img.shields.io/badge/Node.js-339933?style=flat&logo=node.js&logoColor=white" />
+                <img src="https://img.shields.io/badge/Linux-000000?style=flat&logo=linux&logoColor=white" />
+                <img src="https://img.shields.io/badge/Arch_Linux-1793D1?style=flat&logo=arch-linux&logoColor=white" />
+                <img src="https://img.shields.io/badge/React-20232A?style=flat&logo=react&logoColor=61DAFB" />
+                <img src="https://img.shields.io/badge/Tailwind-0F172A?style=flat&logo=tailwind-css&logoColor=38BDF8" />
+                <img src="https://img.shields.io/badge/Discord_Bots-5865F2?style=flat&logo=discord&logoColor=white" />
+              </div>
+            </div>
+
+            {/* System Info */}
+            <div className="bg-[#0f1419] border border-[#1f2335] rounded-lg">
+              <div className="px-4 py-2 border-b border-[#1f2335] text-gray-400">
+                system
+              </div>
+              <div className="p-4 text-gray-300 space-y-1">
+                <p><span className="text-[#7aa2f7]">OS</span>: Arch Linux</p>
+                <p><span className="text-[#7aa2f7]">Shell</span>: fish</p>
+                <p><span className="text-[#7aa2f7]">Editor</span>: VS Code</p>
+                <p><span className="text-[#7aa2f7]">Focus</span>: Tooling, Automation</p>
+              </div>
+            </div>
+
             {/* GitHub Stats */}
-            <div className="border border-red-500/30 bg-black/40 backdrop-blur-sm rounded-lg p-4">
-              <div className="flex items-center gap-2 mb-3">
-                <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
-                <span className="text-red-500 font-nerd text-sm">OPERATIVE_STATS</span>
-              </div>
-              <div className="flex flex-wrap justify-center gap-4">
-                <img 
-                  src="https://github-readme-stats.vercel.app/api?username=Hydradevx&theme=dark&bg_color=0a0a0a&title_color=ff003c&text_color=ffffff&icon_color=ff003c&hide_border=true&include_all_commits=true&count_private=true" 
-                  alt="GitHub Stats" 
-                  className="w-full max-w-[400px] rounded"
-                />
-                <img 
-                  src="https://github-readme-stats.vercel.app/api/top-langs/?username=Hydradevx&theme=dark&bg_color=0a0a0a&title_color=ff003c&text_color=ffffff&icon_color=ff003c&hide_border=true&layout=compact" 
-                  alt="Top Languages" 
-                  className="w-full max-w-[400px] rounded"
-                />
-              </div>
+            <div className="bg-[#0f1419] border border-[#1f2335] rounded-lg p-4">
+              <img
+                src="https://github-readme-stats.vercel.app/api?username=Hydradevx&theme=transparent&hide_border=true&text_color=c0caf5&title_color=7aa2f7&icon_color=7aa2f7"
+                alt="GitHub stats"
+                className="w-full"
+              />
             </div>
-
-            {/* Action Buttons */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, delay: 0.6 }}
-              className="flex flex-col sm:flex-row gap-4 justify-center"
-            >
-              <a
-                href="https://discord.gg/6Tufbvnebj"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-6 py-3 bg-gradient-to-r from-[#ff003c] to-[#8b0000] text-white font-nerd rounded-lg border border-red-500/50 hover:border-red-400 transition-all duration-300 hover:scale-105 shadow-lg shadow-red-500/20"
-              >
-                JOIN_SECRET_COMMUNITY
-              </a>
-              <a
-                href="https://github.com/Hydradevx"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-6 py-3 bg-black text-white font-nerd rounded-lg border border-red-500/30 hover:border-red-400 transition-all duration-300 hover:scale-105"
-              >
-                ACCESS_GITHUB_INTEL
-              </a>
-            </motion.div>
           </motion.div>
         </div>
-
-        {/* Current Operations */}
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.8 }}
-          className="mt-8 border border-red-500/20 bg-black/30 backdrop-blur-sm rounded-lg p-6"
-        >
-          <div className="flex items-center gap-2 mb-4">
-            <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
-            <span className="text-red-500 font-nerd text-sm">CURRENT_OPERATIONS</span>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-gray-300 font-nerd text-sm">
-            <div className="text-center p-3 border border-red-500/10 rounded">
-              <div className="text-red-400 mb-1">AI_RESEARCH</div>
-              <div className="text-xs text-gray-400">ADVANCED_THREAT_ANALYSIS</div>
-            </div>
-            <div className="text-center p-3 border border-red-500/10 rounded">
-              <div className="text-red-400 mb-1">DISTRIBUTED_SYSTEMS</div>
-              <div className="text-xs text-gray-400">SHADOW_NETWORK_EXPANSION</div>
-            </div>
-            <div className="text-center p-3 border border-red-500/10 rounded">
-              <div className="text-red-400 mb-1">PERFORMANCE_OPS</div>
-              <div className="text-xs text-gray-400">OPTIMIZATION_PROTOCOLS</div>
-            </div>
-          </div>
-        </motion.div>
       </div>
 
-      {/* Background Elements */}
-      <div className="absolute inset-0 pointer-events-none">
-        {/* Red Accent Glows */}
-        <motion.div
-          className="absolute top-1/3 left-1/4 w-64 h-64 bg-red-900 rounded-full blur-[80px] opacity-10"
-          animate={{ scale: [1, 1.2, 1] }}
-          transition={{ duration: 4, repeat: Infinity }}
-        />
-        <motion.div
-          className="absolute bottom-1/4 right-1/3 w-48 h-48 bg-red-800 rounded-full blur-[60px] opacity-10"
-          animate={{ scale: [1.2, 1, 1.2] }}
-          transition={{ duration: 3, repeat: Infinity }}
-        />
-        
-        {/* Scan Lines */}
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,0,60,0.02)_1px,transparent_1px)] bg-[size:100%_4px]"></div>
-        
-        {/* Corner Brackets */}
-        <div className="absolute top-8 left-8 w-6 h-6 border-t-2 border-l-2 border-red-500/30"></div>
-        <div className="absolute top-8 right-8 w-6 h-6 border-t-2 border-r-2 border-red-500/30"></div>
-        <div className="absolute bottom-8 left-8 w-6 h-6 border-b-2 border-l-2 border-red-500/30"></div>
-        <div className="absolute bottom-8 right-8 w-6 h-6 border-b-2 border-r-2 border-red-500/30"></div>
-      </div>
-
-      {/* Floating Code Particles */}
-      <div className="absolute inset-0 overflow-hidden">
-        {[...Array(8)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute text-red-500/30 font-nerd text-sm"
-            style={{
-              top: `${Math.random() * 100}%`,
-              left: `${Math.random() * 100}%`,
-            }}
-            animate={{ 
-              y: [0, -100, 0],
-              opacity: [0, 1, 0]
-            }}
-            transition={{ 
-              duration: 8 + Math.random() * 4, 
-              repeat: Infinity,
-              delay: Math.random() * 5
-            }}
-          >
-            {['&gt;_', '0x', 'func()', 'async', 'await', 'const', 'export', 'import'][i]}
-          </motion.div>
-        ))}
-      </div>
-
-      {/* Section Indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: isInView ? 1 : 0 }}
-        className="absolute left-8 top-1/2 transform -translate-y-1/2"
-      >
-        <div className="flex items-center gap-2 text-red-500/60 font-nerd text-sm rotate-90 origin-left">
-          <div className="w-1 h-1 bg-red-500 rounded-full animate-pulse"></div>
-          OPERATIVE_DOSSIER
-        </div>
-      </motion.div>
+      {/* Subtle grid */}
+      <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(122,162,247,0.03)_1px,transparent_1px)] bg-[size:100%_3px]" />
     </section>
-  );
+  )
 }

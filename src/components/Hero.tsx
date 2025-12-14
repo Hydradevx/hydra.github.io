@@ -9,7 +9,7 @@ const COMMANDS = [
 ]
 
 const OUTPUTS = [
-  "hydradev",
+  "hydradevx",
   "Linux arch 6.8.9-arch1-1 x86_64 GNU/Linux",
   `
                    /\\

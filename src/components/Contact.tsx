@@ -1,48 +1,98 @@
-import { motion } from "framer-motion";
+import { motion } from "framer-motion"
 
 export default function Contact() {
   return (
-    <section className="w-full min-h-screen flex flex-col justify-center items-center py-20 px-10 relative bg-[#0a0a0a]">
-      <div className="relative z-10 max-w-2xl mx-auto text-center">
-        <motion.h2 className="text-5xl font-black font-nerd bg-gradient-to-r from-[#ff003c] to-[#8b0000] bg-clip-text text-transparent mb-4">
-          CONTACT_PROTOCOL
-        </motion.h2>
-        
-        <motion.p className="text-gray-400 font-nerd mb-8">
-          INITIATE_SECURE_CONNECTION
-        </motion.p>
+    <section className="relative min-h-screen bg-[#0b0e14] px-10 py-28 flex items-center">
+      {/* Subtle grid */}
+      <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(122,162,247,0.04)_1px,transparent_1px)] bg-[size:100%_3px]" />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+      <div className="relative max-w-3xl mx-auto w-full">
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="mb-12"
+        >
+          <p className="font-mono text-sm text-[#7aa2f7] mb-2">
+            $ contact --init
+          </p>
+          <h2 className="text-4xl font-bold text-white">
+            Contact
+          </h2>
+          <p className="mt-3 text-gray-400 text-sm max-w-xl">
+            Open to collaboration, tooling discussions, or technical questions.
+          </p>
+        </motion.div>
+
+        {/* Contact Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Discord */}
           <motion.a
             href="https://discord.com/users/1251647487081709682"
             target="_blank"
-            className="p-6 border border-red-500/30 bg-black/40 rounded-lg hover:border-red-500/60 transition-all group"
-            whileHover={{ scale: 1.05 }}
+            rel="noopener noreferrer"
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            whileHover={{ y: -4 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4 }}
+            className="group bg-[#0f1419] border border-[#1f2335] rounded-lg p-6 transition hover:border-[#7aa2f7]/60"
           >
-            <div className="text-red-400 font-nerd mb-2">DIRECT_MESSAGE</div>
-            <div className="text-gray-300 text-sm">DISCORD_PROTOCOL</div>
+            <div className="font-mono text-xs text-gray-400 mb-1">
+              discord
+            </div>
+            <div className="text-lg font-semibold text-white group-hover:text-[#7aa2f7] transition">
+              Direct message
+            </div>
+            <p className="mt-2 text-sm text-gray-300">
+              Best for quick conversations and collaboration.
+            </p>
           </motion.a>
-          
+
+          {/* GitHub */}
           <motion.a
             href="https://github.com/Hydradevx"
-            target="_blank" 
-            className="p-6 border border-red-500/30 bg-black/40 rounded-lg hover:border-red-500/60 transition-all group"
-            whileHover={{ scale: 1.05 }}
+            target="_blank"
+            rel="noopener noreferrer"
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            whileHover={{ y: -4 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4, delay: 0.05 }}
+            className="group bg-[#0f1419] border border-[#1f2335] rounded-lg p-6 transition hover:border-[#7aa2f7]/60"
           >
-            <div className="text-red-400 font-nerd mb-2">SOURCE_COMMS</div>
-            <div className="text-gray-300 text-sm">GITHUB_CHANNEL</div>
+            <div className="font-mono text-xs text-gray-400 mb-1">
+              github
+            </div>
+            <div className="text-lg font-semibold text-white group-hover:text-[#7aa2f7] transition">
+              Source & issues
+            </div>
+            <p className="mt-2 text-sm text-gray-300">
+              Code, projects, and discussions.
+            </p>
           </motion.a>
         </div>
 
+        {/* Footer Status */}
         <motion.div
-          className="border border-red-500/20 bg-black/30 rounded-lg p-6"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.25 }}
+          className="mt-12 bg-[#0f1419] border border-[#1f2335] rounded-lg p-6 font-mono text-sm text-gray-300"
         >
-          <div className="text-red-400 font-nerd text-sm mb-2">ENCRYPTION_STATUS: ACTIVE</div>
-          <div className="text-gray-400 font-nerd text-xs">ALL_COMMUNICATIONS_SECURE</div>
+          <p>
+            <span className="text-[#7aa2f7]">$</span> connection --status
+          </p>
+          <div className="mt-2 space-y-1">
+            <p>• availability: open</p>
+            <p>• preferred channel: discord</p>
+            <p>• response time: async</p>
+          </div>
         </motion.div>
       </div>
     </section>
-  );
+  )
 }
